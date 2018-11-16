@@ -1,0 +1,393 @@
+<?php
+error_reporting(1);
+session_start();
+//if($name = $_SESSION['name'])
+if ($_SESSION['name']=="") {
+ header('location:index.php');
+
+}
+
+  $name=$_SESSION['name'];
+   $client_id = $_GET['edit1'];
+    $id = $_GET['id'];
+?>
+<?php
+ session_start();
+ $name = $_SESSION['name'];
+?>
+<?php
+include("config.php");
+?>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+.body_pdf{
+	font-size:13px;
+	    margin-left: 90px;
+		    margin-right: 90px;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
+.block-a{
+  width:50%;
+
+  float:left;
+
+}
+
+.block-b{
+  width:50%;
+   float:right;
+}
+
+</style>
+</head>
+<body class="body_pdf">
+
+
+  <h1 style="text-align: center;"> JAGDAMBA PRINT LINE </h1>
+<table style="width:100%">
+  <?php
+                                            if (isset($_GET['edit1'])) {
+                                            $vendor_id = $_GET['edit1'];
+
+                                            $sql = "SELECT * from clients_product WHERE client_id = '$vendor_id' AND product_id='$id'";
+                                            $query = $dbh -> prepare($sql);
+                                            $query->execute();
+                                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                            $cnt=1;
+                                            if($query->rowCount() > 0)
+                                            {
+                                            foreach($results as $row)
+                                            { ?>
+
+  <tr>
+    <th rowspan="3"><b>GST INVOICE /<br>SUPPLY BILL</b></th>
+    <td>Invoice No.
+
+  <b> <?php echo htmlentities($row->product_id);?></b></td>
+  <td>Date:
+
+  <b><?php echo htmlentities($row->date);?></b></td>
+  </tr>
+  <tr>
+    <td>HSN/SAC Codes
+
+  <b><?php echo htmlentities($row->hsn_code);?></b></td>
+   <td>Mode/Terms of Payment:
+
+  <b>by <?php echo htmlentities($row->payment_mode);?></b></td>
+  </tr>
+  <tr>
+    <td>Cheque No.
+
+  <b><?php echo htmlentities($row->deposite_account);?></b></td>
+  <td>Date:
+
+  <b><?php echo htmlentities($row->date);?></b></td>
+  </tr>
+   <tr>
+
+
+    <th colspan="2"><b>Consignor: <br>JAGDAMBA PRINT LINE </b><br>
+  Abulash Lane, Machhuatoli, Patna<br>Bihar  (Ph : 9771408591 / 7360811115)</th>
+    <td><b>Consignee:</b>
+  <br>
+  <b> <?php echo htmlentities($row->client_name);?></b><br><?php echo htmlentities($row->address);?></td>
+
+  </tr>
+   <tr>
+    <th colspan="2"><b>Consignor's GSTIN :  10AZNPP1854H1ZD </b></th>
+    <td><b>Consignee's GSTIN :</b>
+
+  <b>
+  <?php echo htmlentities($row->gst_no);?></b></td>
+
+  </tr>
+
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <table style="width:100%" border="5">
+  <tr>
+    <th style="width: 62px;">S.No.</th>
+    <th style="width: 200px;">Particular</th>
+	 <th style="width: 200px;">HSN/SAC</th>
+   <th style="width: 200px;">Quantity</th>
+  <th style="width: 108px;">per</th>
+    <th style="width: 108px;">Rate</th>
+  <th style="width: 195px;">Amount</th>
+  </tr>
+  <tr>
+    <th>1.</th>
+    <th ><?php echo htmlentities($row->product_name);?></th>
+	<th ><?php echo htmlentities($row->HSN);?></th>
+   <th ><?php echo htmlentities($row->quantity);?></th>
+  <th ><?php echo htmlentities($row->per);?></th>
+    <th ><?php echo htmlentities($row->rate);?></th>
+  <th ><?php echo htmlentities($row->amount);?></th>
+  </tr>
+  <tr>
+    <th>2.</th>
+    <th ><?php echo htmlentities($row->product_name2);?> </th>
+	<th ><?php echo htmlentities($row->HSN);?></th>
+   <th ><?php echo htmlentities($row->quantity2);?> </th>
+  <th ><?php echo htmlentities($row->per2);?> </th>
+    <th ><?php echo htmlentities($row->rate2);?> </th>
+  <th > <?php echo htmlentities($row->amount2);?></th>
+  </tr>
+   <tr>
+    <th>3.</th>
+    <th><?php echo htmlentities($row->product_name3);?> </th>
+	<th ><?php echo htmlentities($row->HSN);?></th>
+   <th> <?php echo htmlentities($row->quantity3);?></th>
+  <th><?php echo htmlentities($row->per3);?> </th>
+    <th><?php echo htmlentities($row->rate3);?> </th>
+  <th> <?php echo htmlentities($row->amount3);?></th>
+  </tr>
+   <tr>
+    <th>4.</th>
+    <th><?php echo htmlentities($row->product_name4);?> </th>
+	<th ><?php echo htmlentities($row->HSN);?></th>
+   <th><?php echo htmlentities($row->quantity4);?> </th>
+  <th> <?php echo htmlentities($row->per4);?></th>
+    <th><?php echo htmlentities($row->rate4);?> </th>
+  <th><?php echo htmlentities($row->amount4);?> </th>
+  </tr>
+  <tr>
+    <th></th>
+    <th>Total</th>
+   <th> </th>
+  <th> </th>
+    <th> </th>
+  <th><b><u><?php echo htmlentities($row->tm);?></u></b></th>
+  <th> </th>
+  </tr>
+  <tr>
+    <th></th>
+   <th></th>
+   <th rowspan="2">OUTPUT    <br> <?php echo htmlentities($row->gst);?>%  </th>
+   <td>CGST</td>
+   <td><?php echo htmlentities($row->cgst);?>%</td>
+   <td><?php echo htmlentities($row->cgst_amount);?></td>
+   <td></td>
+   </tr>
+    <tr>
+    <th></th>
+   <th></th>
+   <td>SGST</td>
+   <td><?php echo htmlentities($row->sgst);?>%</td>
+   <td><?php echo htmlentities($row->sgst_amount);?></td>
+   <td></td>
+   </tr>
+   <tr>
+    <th></th>
+    <th>Spl Discount.</th>
+   <th> </th>
+  <th> </th>
+    <th> </th>
+  <th><?php echo htmlentities($row->discount);?></th>
+  <td></td>
+  </tr>
+   <tr>
+    <th></th>
+    <th>Net Amount</th>
+   <th> </th>
+  <th> </th>
+    <th> </th>
+  <th><?php echo htmlentities($row->net_amount);?></th>
+  <td></td>
+  </tr>
+   <tr>
+    <th></th>
+    <th>Dues</th>
+   <th> </th>
+  <th> </th>
+    <th> </th>
+  <th><?php echo htmlentities($row->dues);?></th>
+  <td></td>
+  </tr>
+   <tr>
+    <th></th>
+    <th id="123">Net Payable Amount</th>
+   <th> </th>
+  <th> </th>
+    <th> </th>
+  <th><?php echo htmlentities($row->payable);?></th>
+  <td></td>
+  </tr>
+
+   </table>
+   <br>
+<!--   testing area -->
+
+
+
+<script>
+
+
+
+function number2text(value) {
+    var fraction = Math.round(frac(value)*100);
+    var f_text  = "";
+
+    if(fraction > 0) {
+        f_text = "AND "+convert_number(fraction)+" PAISE";
+    }
+
+    return convert_number(value)+" RUPEE "+f_text+" ONLY";
+}
+
+function frac(f) {
+    return f % 1;
+}
+
+function convert_number(number)
+{
+    if ((number < 0) || (number > 999999999))
+    {
+        return "NUMBER OUT OF RANGE!";
+    }
+    var Gn = Math.floor(number / 10000000);  /* Crore */
+    number -= Gn * 10000000;
+    var kn = Math.floor(number / 100000);     /* lakhs */
+    number -= kn * 100000;
+    var Hn = Math.floor(number / 1000);      /* thousand */
+    number -= Hn * 1000;
+    var Dn = Math.floor(number / 100);       /* Tens (deca) */
+    number = number % 100;               /* Ones */
+    var tn= Math.floor(number / 10);
+    var one=Math.floor(number % 10);
+    var res = "";
+
+    if (Gn>0)
+    {
+        res += (convert_number(Gn) + " CRORE");
+    }
+    if (kn>0)
+    {
+            res += (((res=="") ? "" : " ") +
+            convert_number(kn) + " LAKH");
+    }
+    if (Hn>0)
+    {
+        res += (((res=="") ? "" : " ") +
+            convert_number(Hn) + " THOUSAND");
+    }
+
+    if (Dn)
+    {
+        res += (((res=="") ? "" : " ") +
+            convert_number(Dn) + " HUNDRED");
+    }
+
+
+    var ones = Array("", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX","SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTEEN","FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN","NINETEEN");
+var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY", "EIGHTY", "NINETY");
+
+    if (tn>0 || one>0)
+    {
+        if (!(res==""))
+        {
+            res += " AND ";
+        }
+        if (tn < 2)
+        {
+            res += ones[tn * 10 + one];
+        }
+        else
+        {
+
+            res += tens[tn];
+            if (one>0)
+            {
+                res += ("-" + ones[one]);
+            }
+        }
+    }
+
+    if (res=="")
+    {
+        res = "zero";
+    }
+    return res;
+  }
+
+
+
+$(document).ready(function(){
+
+
+<?php $data = $row->net_amount;?>
+
+    console.log(<?php $data;?>);
+
+    //var newValue = number2text(<?php $data;?>);
+
+
+   //$("#inword").html(newValue);
+});
+
+//   $(document).ready(function(){
+
+// myFunction();
+
+// function myFunction() {
+//     document.getElementById("inword").innerHTML = "Iframe is loaded.";
+// }
+
+   /*  $("button").click(function(){
+        $("p").slideToggle();
+    }); */
+// });
+
+/* document.getElementById("123").onload = function() {myFunction()};
+
+function myFunction() {
+    document.getElementById("inword").innerHTML = "Iframe is loaded.";
+} */
+</script>
+
+<!--   testing area  end-->
+
+   </table>
+   <br>
+    <table style="width:100%">
+    <tr>
+ <th colspan="2"><b>Amount Chargeable (in words) Rupees:<p id="inword"></p>
+
+ </b><br><hr>
+  Company's<br>SSI (EM) No.    : 100281105722 [PART - II]<br>PAN NO. : AZNPP1854H<hr>
+  <b>Declaration :-</b><br>
+  <b>*  Goods once sold will not be taken back</b><br>
+  <b>*  Interest @18%p.a. will be charged if the payment is not made with in the stipulated time</b><br>
+  <b>*  Subject to Patna Jurisdiction</b><br>
+
+  </th>
+    <td><b>AUTHORISED SIGNATORY</b>
+  <hr>
+   </td>
+
+  </tr>
+</table></table>
+<hr> <center><p><b>This is a Computer Generated Invoice</b></p><center><hr>
+</body>
+<button onclick="javascript:window.print();" class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>
+<a href="view_client.php"><button style="color: black;"><span><i class="fa fa-print"></i> Back</span></button>
+</html>
+<?php } }  }
+?>
